@@ -1,3 +1,10 @@
+# Modified
+
+Modified original front end app from chenmu10.github.io.
+Added express server.
+Save/Load from Cassandra / AstraDB.
+Minio support.
+
 # About
 > https://chenmu10.github.io/memeGenerator/
 
