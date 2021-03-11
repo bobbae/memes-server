@@ -24,7 +24,7 @@ button,
 a {
     display: inline-block;
     border-radius: 4px;
-    background-color: #fc6335;
+    background-color: #e49d84;
     border: none;
     color: #FFFFFF;
     text-align: center;
@@ -124,7 +124,7 @@ header h1 {
 
 .txt-editor {
     padding: 5px 10px;
-    border: 1px #f4511e solid;
+    border: 1px #f5f3f7 solid;
     border-radius: 5px;
     margin: 5px;
 }
