@@ -1,9 +1,53 @@
 # Modified
 
 Modified original front end app from chenmu10.github.io.
-* Added express server.
-* Save/Load from Cassandra / AstraDB.
-* Minio support.
+* Has both frontend client web app in pure HTML5 and CSS and Javascript and nodejs server side express server. Database APIs are better handled in the server side. Frontend calls backend API and backend express nodejs server has CORS enabled.
+* Save/Load from Cassandra / AstraDB via astra.datastax.com. Needs testing with k8s hosted cassandra cluster. There are several limits with Cassandra API driver. The per column / row payload is limited and cannot hold data bigger than 1MB reasonably. The other problem is due to the way ORDER BY is only allowed per key partition, making it useless for the purpose of this app. We use PER PARTITION LIMIT as a workaround but better database should be used. Cassandra is used to hold metadata for images annotated with meme words.
+* Minio as installed into k8s cluster and used to hold images in object store. Minio does replication and erasure code based recovery in a cluster and better suited for image store.
+* Encrypted assets hold credentials for Astra DB, GCP and other API keys. The k8s `secrets` feature is leveraged but it is not really secure being only base64 based. We encrypt all sensitive data which is then unencrypted and placed into docker images. Potentially, it is harmful if docker repo is public but using private gcr.io repo with proper credentials `imagePullSecrets` for private registry should be secure enough.
+
+## Encrypted assets
+
+* you should get SOME-PASSWORD from Bob
+* created via
+
+```
+$ tar czvf assets.tar.gz key.json meme-server-secret.yaml secure-connect-astratest1.zip
+$ echo SOME-PASSWORD | gpg --batch --yes --passphrase-fd 0 -c -o encrypted-assets assets.tar.gz
+```
+
+* Before running this software, you need decrypt and untar the assets
+```
+$ echo SOME-PASSWORD | gpg --batch --yes --passphrase-fd 0 -d -o assets.tar.gz encrypted-assets 
+$ tar xvf assets.tar.gz
+meme-server-secret.yaml
+secure-connect-astratest1.zip
+key.json
+```
+
+These untarred files are used as follows:
+
+* meme-server-secret.yaml -- to seed secrets into kubernets cluster. See Makefile.
+* key.json -- access GCP
+* secure-connect-astratest1.zip -- access astra.datastax.com database
+
+They should not be checked into git.  The .gitignore entries exist for them.
+
+The example `minio` install in k8s will use values specified in minio-test.js for
+the demo minio cluster. See my-minio-fs.yaml.
+
+For example,
+
+```
+$ kubectl apply -f my-minio-fs.yaml
+$ kubectl expose deployment/my-minio-fs --type="NodePort" --port 9000
+$ kubectl get services/my-minio-fs -o go-template='{{(index .spec.ports 0).nodePort}}'
+# wget https://dl.min.io/client/mc/release/linux-amd64/mc
+$ mc alias set minio http://192.168.49.2:9000 minio minio123
+$ mc admin --json info minio
+```
+
+
 
 # About
 > https://chenmu10.github.io/memeGenerator/

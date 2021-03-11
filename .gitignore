@@ -1,6 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 /build
+assets.tar.gz
+
+meme-server-secret.yaml
+secure-connect-astratest1.zip
+key.json
 
 # dependencies
 /node_modules
