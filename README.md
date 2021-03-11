@@ -1,6 +1,9 @@
 # Modified
 
-Modified original front end app from chenmu10.github.io.
+Modified original front end app from 
+> https://chenmu10.github.io/memeGenerator/
+
+
 * Has both frontend client web app in pure HTML5 and CSS and Javascript and nodejs server side express server. Database APIs are better handled in the server side. Frontend calls backend API and backend express nodejs server has CORS enabled.
 * Save/Load from Cassandra / AstraDB via astra.datastax.com. Needs testing with k8s hosted cassandra cluster. There are several limits with Cassandra API driver. The per column / row payload is limited and cannot hold data bigger than 1MB reasonably. The other problem is due to the way ORDER BY is only allowed per key partition, making it useless for the purpose of this app. We use PER PARTITION LIMIT as a workaround but better database should be used. Cassandra is used to hold metadata for images annotated with meme words.
 * Minio as installed into k8s cluster and used to hold images in object store. Minio does replication and erasure code based recovery in a cluster and better suited for image store.
@@ -47,7 +50,7 @@ $ mc alias set minio http://192.168.49.2:9000 minio minio123
 $ mc admin --json info minio
 ```
 
-
+# The following is the original README from frontend memeGenerator
 
 # About
 > https://chenmu10.github.io/memeGenerator/
