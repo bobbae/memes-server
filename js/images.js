@@ -5,7 +5,7 @@
 2. render images.
 */
 
-var gNextId = 1;
+var gNextId = 0;
 var gImgs;
 var imgNames = [
     "aag", "ackbar", "afraid", "aint-got-time", "ams", "ants", "apcr",
@@ -35,20 +35,22 @@ var imgNames = [
 function init() {
     gImgs = createImgs(imgNames);
     renderImgs(gImgs);
-    initMemeEditor(1,'aag');
-    toggleView();
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 function randomEdit() {
-    var randNo = getRandomInt(imgNames.length);
-    initMemeEditor(randNo, imgNames[randNo]);
+    var randNo = getRandomInt(gImgs.length);
+    initMemeEditor(randNo, gImgs[randNo].name);
 }
 
 function orderImgs() {
     gImgs = createImgs(imgNames.sort());
     renderImgs(gImgs);
+    if (currentView === "meme"){
+        currentView = 'gallery';
+        toggleView();
+    }
 }
 function randomImgs() {
     var array = imgNames;
@@ -60,10 +62,15 @@ function randomImgs() {
     }
     gImgs = createImgs(array);
     renderImgs(gImgs);
+    if (currentView === "meme"){
+        currentView = 'gallery';
+        toggleView();
+    }
 }
 
 function createImgs(imgNames) {
     var imgs = [];
+    gNextId = 0;
     imgNames.map(function(name) {
         imgs.push(createImage(name));
     });
@@ -88,5 +95,3 @@ function renderImgs(imgs) {
         
     document.querySelector('.gallery').innerHTML = strHtml;
 }
-
-// <div id='${img.id}' class="photo" onclick="initMemeEditor(${img.id},this)" style="background-image: url('${img.url}')">

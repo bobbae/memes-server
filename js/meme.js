@@ -34,11 +34,17 @@ function createTxt(line, x, y) {
     };
 }
 
+var currentView = "gallery";
+
 function initMemeEditor(imgId, imgName) {
-    toggleView();
     gMeme = createGmeme(imgId, imgName);
     initCanvas();
     renderTxtsEditor();
+    if (currentView === "gallery") {
+        currentView = "meme";
+        console.log("view",currentView);
+        toggleView();
+    }
 }
 
 function initCanvas() {
@@ -62,9 +68,7 @@ function initCanvas() {
 
 function getImgSrc() {
     // imgIdx needed to find img src url in gImg[]
-    var imgIdx = gImgs.findIndex(function (img) {
-        return gMeme.selectedImgId === img.id;
-    });
+    var imgIdx = gMeme.selectedImgId;
 
     return gImgs[imgIdx].url;
 }
@@ -293,6 +297,11 @@ async function likedImgs() {
         }
         gImgs = createImgs(imgListDB);
         renderImgs(gImgs); 
+        if (currentView === "meme") {
+            currentView = "gallery";
+            console.log("view",currentView);
+            toggleView();
+        }
         return res;
     } catch(e) {
         console.error(e);
@@ -339,6 +348,7 @@ async function getDB(name) {
 }
 
 function toggleView() {
+    console.log("toggleView", currentView);
     document.querySelector('.meme-container').classList.toggle('hidden');
     document.querySelector('.gallery').classList.toggle('hidden');
 }
