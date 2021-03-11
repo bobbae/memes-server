@@ -234,7 +234,8 @@ function like() {
     console.log('gMeme votes++',gMeme);
 }
 
-var meme_server = 'http://localhost:3001';
+//var meme_server = 'http://localhost:3001';
+var meme_server = '';
 
 async function saveDB() {
     try{
