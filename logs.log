@@ -3,3 +3,32 @@ Running on machine: m6700
 Binary: Built with gc go1.16 for linux/amd64
 Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
 I0308 23:06:36.067991  176745 init.go:79] init command started
+Log file created at: 2021/03/10 15:17:47
+Running on machine: m6700
+Binary: Built with gc go1.16 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0310 15:17:47.072862  477523 init.go:79] init command started
+Log file created at: 2021/03/10 15:19:18
+Running on machine: m6700
+Binary: Built with gc go1.16 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0310 15:19:18.642427  477944 warnings.go:70] apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+Log file created at: 2021/03/10 15:20:26
+Running on machine: m6700
+Binary: Built with gc go1.16 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0310 15:20:26.549576  478252 warnings.go:70] apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+I0310 15:20:26.567898  478252 tenant-create.go:71] create tenant command started
+W0310 15:20:26.630282  478252 tenant-create.go:74] namespaces "my-minio-tenant-1" not found
+Log file created at: 2021/03/10 15:20:36
+Running on machine: m6700
+Binary: Built with gc go1.16 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0310 15:20:36.364277  478311 warnings.go:70] apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+I0310 15:20:36.379449  478311 tenant-create.go:71] create tenant command started
+Log file created at: 2021/03/10 15:23:05
+Running on machine: m6700
+Binary: Built with gc go1.16 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W0310 15:23:05.085762  479044 warnings.go:70] apiextensions.k8s.io/v1beta1 CustomResourceDefinition is deprecated in v1.16+, unavailable in v1.22+; use apiextensions.k8s.io/v1 CustomResourceDefinition
+I0310 15:23:05.102404  479044 tenant-info.go:62] info tenant command started
