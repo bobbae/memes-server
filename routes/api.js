@@ -2,6 +2,8 @@ var express = require('express');
 const { Client } = require("cassandra-driver");
 var path = require('path');
 var fetch = require('cross-fetch');
+var Minio = require('minio')
+
 var router = express.Router();
 
 /* GET home page. */
@@ -22,7 +24,6 @@ router.post('/get', (request, response) => {
     get_cassandra_client();
     if (request.body === null ||
         request.body === undefined ){
-      
         res.send({ status: 'missing body' });
     }
     if (request.body['name'] !== null &&
@@ -31,20 +32,32 @@ router.post('/get', (request, response) => {
     }
 });
 
-
 router.post('/save', (request, response) => {
     save_to_cassandra(request.body);
     response.status(204).send();
 });
 
-router.post('/saveimg', (request, response) => {
-    save_to_minio(request.body);
+router.post('/backup', (request, response) => {
+    //var endPoint = `${process.env.MINIO}`;
+    var endPoint = '192.168.49.2';
+    console.log('/backup endPoint', endPoint );
+    var minioClient = new Minio.Client({
+        endPoint: endPoint, //XXX
+        port: 9000,
+        useSSL: false,
+        accessKey: 'minio',
+        secretKey: 'minio123' 
+        /* endPoint: 'play.min.io',
+        port: 9000,
+        useSSL: true,
+        accessKey: 'Q3AM3UQ867SPQQA43P2F',
+        secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG' */
+    });
+    minioClient.putObject('memes', request.body.name, request.body.image, 
+        function(e) {  if (e) return console.log('/api/backup',e);    }
+    );
+   
     response.status(204).send();
-});
-
-
-router.post('/getimg', (request, response) => {
-    get_from_minio(request.body);
 });
 
 
@@ -69,11 +82,9 @@ async function get_from_cassandra_by_name(name, res) {
     var db = `${process.env.ASTRA_DB_KEYSPACE}.${process.env.ASTRA_DB_TABLE}`;
     var response = await cassandra_client.execute(
         `SELECT * FROM ${db} WHERE name = ?  ALLOW FILTERING `, [name]);
-    console.log(response);
+    //console.log(response);
     res.send({ status: 'ok', 'rows': response.rows });
 }
-
-
 
 async function save_to_cassandra(body) {
     get_cassandra_client();
@@ -83,7 +94,7 @@ async function save_to_cassandra(body) {
       `INSERT INTO ${db} (name, toptext, bottomtext, votes, uuid) VALUES (?,  ?, ?, ?, ?) `;
     const params = 
        [ body['name'],  body['toptext'], body['bottomtext'], body['votes'],body['uuid'] ];
-    console.log('save', params);
+    //console.log('save', params);
     await cassandra_client.execute(query, params, { prepare: true })
 }
 
@@ -98,9 +109,11 @@ async function get_from_cassandra(res) {
         `SELECT * FROM ${db} PER PARTITION LIMIT 1`);
     for (i = 0; i < rs.rowLength; i++) {
         row = rs.rows[i];
-        console.log(row, row['key']);
+        //console.log(row, row['key']);
     }
     res.send({ status: 'ok', 'rows': rs })
 }
+
+
 
 module.exports = [router];

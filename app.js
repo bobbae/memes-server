@@ -12,8 +12,8 @@ var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '10000kb', extended: true }));
+app.use(bodyParser.json({ limit: '10000kb', extended: true}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
