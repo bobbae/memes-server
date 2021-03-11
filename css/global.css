@@ -41,8 +41,8 @@ a {
 /*-------Layout-----*/
 
 .container {
-    max-width: 1060px;
-    width: 90%;
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
 }
 
