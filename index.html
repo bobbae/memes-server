@@ -26,14 +26,15 @@
         <button class="button"  onclick="randomEdit()">
             <i class="fas fa-random"></i> RANDOM IMAGE
         </button>
-        <button class="button" onclick="likedImgs()">
-            <i class="fas fa-thumbs-up"></i>  FAVORITES
-        </button>
+        
         <button class="button" onclick="randomImgs()">
             <i class="fas fa-random"></i>  RANDOM LIST
         </button>
         <button class="button" onclick="orderImgs()">
             <i class="fas fa-fire"></i>  ORDERED LIST
+        </button>
+        <button class="button" onclick="likedImgs()">
+            <i class="fas fa-thumbs-up"></i>  FAVORITES
         </button>
         <!--
         <button class="button"  onclick="toggleView()">
@@ -46,7 +47,6 @@
             <section class="gallery grid-container">
                 <!-- js render -->
             </section>
-
             <section class="meme-container hidden">
                 <div class="container">
                     <!--
@@ -62,12 +62,13 @@
                         <i class="fas fa-plus"></i>  Add Line
                     </button>
                     -->
-                    <button class="button" onclick="saveDB()">
-                        <i class="fas fa-plus"></i> SAVE TO DB
-                    </button>
                     <button class="button" onclick="getDB()">
                         <i class="fas fa-search"></i>  GET FROM DB
                     </button>
+                    <button class="button" onclick="saveDB()">
+                        <i class="fas fa-plus"></i> SAVE TO DB
+                    </button>
+                    
                     <a id="dl" class="button" download="meme.png" href="#" onclick="dlCanvas(this)">
                         <span>
                             <i class="fas fa-cloud-download-alt"></i> DOWNLOAD
