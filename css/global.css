@@ -129,7 +129,6 @@ header h1 {
     margin: 5px;
 }
 
-
 .votes {
     padding: 5px 10px;
     border: 1px #f4511e solid;
@@ -141,6 +140,8 @@ header h1 {
     border: 2px solid white;
     border-radius: 2px;
     margin: 5px;
+    height: auto;
+    width: 30%;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 

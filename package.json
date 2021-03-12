@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.14.0",
     "body-parser": "^1.18.3",
     "cassandra-driver": "^4.6.1",
     "cookie-parser": "~1.4.4",
