@@ -5,7 +5,12 @@ Modified original front end app from
 
 Modifed but not necessarily better. Just more complicated to accommodate the list of features requested by others.
 
-* Has both frontend client web app in pure HTML5 and CSS and Javascript and nodejs server side express server. Database APIs are better handled in the server side. Bugs were enountered in strictly frontend API to DB and could not be fixed. Some  version of APIs are only available in server side, for example, GCS, BigQuery, etc. Frontend calls backend API and backend express nodejs server has CORS enabled.
+* Has both frontend client web app in pure HTML5 and CSS and Javascript and nodejs server side express server. Backend nodejs
+code is in `app.js` and `routes/`. Front end is `index.html` and `js`, `css` and `imgs`. Just do `npm i` and `npm start`. Without backend,
+the frontend runs fine as static HTML web page, but cannot do Database
+and Minio API calls to the backend.
+* App is organized to have frontend and backend in a single `npm start`.
+* Due to various issues, Database APIs are better handled in the server side. Bugs were enountered in strictly frontend API to DB and could not be fixed. Some  version of APIs are only available in server side, for example, GCS, BigQuery, etc. Frontend calls backend API and backend express nodejs server has CORS enabled.
 * Save/Load from Cassandra / AstraDB via astra.datastax.com. Needs testing with k8s hosted cassandra cluster. There are several limits with Cassandra API driver. The per column / row payload is limited and cannot hold data bigger than 1MB reasonably. The other problem is due to the way ORDER BY is only allowed per key partition, making it useless for the purpose of this app. We use PER PARTITION LIMIT as a workaround but better database should be used. Cassandra is used to hold metadata for images annotated with meme words. Also, storing 100s of KB or MB of image data serialized in base64 as a column value in a row is a bad way of using Cassandra and it refuses to do well in that use case.
 * Therefore Minio as installed into k8s cluster and used to hold images in object store. Minio does replication and erasure code based recovery in a cluster and better suited for image store.
 * Encrypted assets hold credentials for Astra DB, GCP and other API keys. The k8s `secrets` feature is leveraged but it is not really secure being only base64 based. We encrypt all sensitive data which is then unencrypted and placed into docker images. Potentially, it is harmful if docker repo is public but using private gcr.io repo with proper credentials `imagePullSecrets` for private registry should be secure enough.
