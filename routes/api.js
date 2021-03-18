@@ -61,24 +61,33 @@ router.post('/backup', (request, response) => {
 });
 
 
-var cassandra_client;
+var cassandra_client = null;
 
 async function get_cassandra_client() {
-    //console.log(`using connect bundle ${process.env.ASTRA_SECURE_CONNECT_BUNDLE}`);
 
-    if (cassandra_client === null || cassandra_client === undefined) {
-        cassandra_client = new Client({
-            cloud: {
-                secureConnectBundle: `${process.env.ASTRA_SECURE_CONNECT_BUNDLE}`,
-            },
-            credentials: { username: `${process.env.ASTRA_DB_USERNAME}`, password: `${process.env.ASTRA_DB_PASSWORD}` },
-        });
-        await cassandra_client.connect();
+    if (cassandra_client !== null && cassandra_client !== undefined) {
+        console.log('get_cassandra_client, already connected')
+        return cassandra_client;
     }
+
+    var bundle = `${process.env.ASTRA_SECURE_CONNECT_BUNDLE}`
+    console.log(`get_cassandra_client using connect bundle ${bundle}`);
+
+    cassandra_client = new Client({
+        cloud: {
+            secureConnectBundle: bundle,
+        },
+        credentials: { username: `${process.env.ASTRA_DB_USERNAME}`, password: `${process.env.ASTRA_DB_PASSWORD}` },
+    });
+    console.log('get_cassandra_client, connecting...')
+    await cassandra_client.connect();
+    
 }
 
 async function get_from_cassandra_by_name(name, res) {
+    console.log('get_from_cassandra_by_name')
     get_cassandra_client();
+
     var db = `${process.env.ASTRA_DB_KEYSPACE}.${process.env.ASTRA_DB_TABLE}`;
     var response = await cassandra_client.execute(
         `SELECT * FROM ${db} WHERE name = ?  ALLOW FILTERING `, [name]);
@@ -87,6 +96,7 @@ async function get_from_cassandra_by_name(name, res) {
 }
 
 async function save_to_cassandra(body) {
+    console.log('save_to_cassandra')
     get_cassandra_client();
     var db = `${process.env.ASTRA_DB_KEYSPACE}.${process.env.ASTRA_DB_TABLE}`;
 
@@ -103,6 +113,7 @@ async function shutdown_cassandra_client() {
 }
 
 async function get_from_cassandra(res) {
+    console.log('get_from_cassandra')
     get_cassandra_client();
     var db = `${process.env.ASTRA_DB_KEYSPACE}.${process.env.ASTRA_DB_TABLE}`;
     var rs = await cassandra_client.execute(
